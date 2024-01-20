@@ -55,13 +55,13 @@ export default function Flow() {
   const [edges, setEdges, onEdgesChange] = useEdgesState(defaultEdges);
 
   const [color, setColor] = useState<string | null>(null);
-  const [nodeActions, setNodeActions] = useState([
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  // const [nodeActions, setNodeActions] = useState([
+  //   false,
+  //   false,
+  //   false,
+  //   false,
+  //   false,
+  // ]);
 
   const { resolvedTheme: theme } = useTheme();
 
@@ -106,43 +106,43 @@ export default function Flow() {
           className={cn("w-12 h-12 animate-spin", loading ? "block" : "hidden")}
         />
       </div>
-      <nodeActionContext.Provider
+      {/* <nodeActionContext.Provider
         value={{
           nodeActions,
           setNodeActions,
         }}
+      > */}
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
+        defaultEdgeOptions={defaultEdgeOptions}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        connectionLineComponent={ConnectionLine}
+        onConnect={onConnect}
+        onInit={onInit}
+        className={cn(loading ? "invisible" : "visible")}
+        deleteKeyCode={["Delete", "Backspace"]}
+        fitView
       >
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          nodeTypes={nodeTypes}
-          edgeTypes={edgeTypes}
-          defaultEdgeOptions={defaultEdgeOptions}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          connectionLineComponent={ConnectionLine}
-          onConnect={onConnect}
-          onInit={onInit}
-          className={cn(loading ? "invisible" : "visible")}
-          deleteKeyCode={["Delete", "Backspace"]}
-          fitView
-        >
-          <Controls />
-          <Background
-            variant={BackgroundVariant.Dots}
-            gap={12}
-            size={1}
-            color={color ?? "white"}
-            style={{ background: "hsl(var(--background))" }}
-          />
-          <Panel position="bottom-right">
-            <ResetDialog resetCanvas={resetCanvas} />
-          </Panel>
-          <Panel position="top-right">
-            <InfoDialog />
-          </Panel>
-        </ReactFlow>
-      </nodeActionContext.Provider>
+        <Controls />
+        <Background
+          variant={BackgroundVariant.Dots}
+          gap={12}
+          size={1}
+          color={color ?? "white"}
+          style={{ background: "hsl(var(--background))" }}
+        />
+        <Panel position="bottom-right">
+          <ResetDialog resetCanvas={resetCanvas} />
+        </Panel>
+        <Panel position="top-right">
+          <InfoDialog />
+        </Panel>
+      </ReactFlow>
+      {/* </nodeActionContext.Provider> */}
     </div>
   );
 }

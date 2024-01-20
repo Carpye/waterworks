@@ -1,15 +1,12 @@
 "use client";
-import { DefaultNode, colors } from "@/config";
 import { cn, getIconFromType } from "@/lib/utils";
-import { MouseEvent, memo, useContext, useState } from "react";
-import { Handle, NodeProps, NodeToolbar, Position } from "reactflow";
-import { Separator } from "../ui/separator";
-import { Button } from "../ui/button";
+import { MouseEvent, memo, useState } from "react";
+import { Handle, NodeProps, Position } from "reactflow";
 import { toast } from "sonner";
-import { useNodeActions } from "./Flow";
+import { Button } from "../ui/button";
 
 const CustomNode = ({ data, id }: NodeProps) => {
-  const {} = useNodeActions();
+  // const {} = useNodeActions();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const onNodeClick = (e: MouseEvent) => {
