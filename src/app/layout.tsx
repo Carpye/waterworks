@@ -1,8 +1,7 @@
-import Providers from "@/components/Providers"
-import Sidebar from "@/components/Sidebar"
-import { GeistSans } from "geist/font/sans"
-import "./globals.css"
-import { themes } from "@/config"
+import Providers from "@/components/Providers";
+import Sidebar from "@/components/Sidebar";
+import { GeistSans } from "geist/font/sans";
+import "./globals.css";
 
 export const metadata = {
   title: "Dashboard | Wodociągi",
@@ -11,22 +10,22 @@ export const metadata = {
     {
       rel: "icon",
       type: "image/x-icon",
-      url: "/favicon.ico",
+      url: "/water-icon.svg",
       media: "(prefers-color-scheme: light)",
     },
     {
       rel: "icon",
       type: "image/x-icon",
-      url: "/favicon-dark.ico",
+      url: "/water-icon.svg",
       media: "(prefers-color-scheme: dark)",
     },
   ],
-}
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -37,7 +36,7 @@ export default function RootLayout({
             defaultTheme: "system",
             enableSystem: true,
             disableTransitionOnChange: true,
-            themes: ["light", "dark", "system", "turquoise"],
+            themes: ["light", "dark"],
           }}
         >
           <div className="h-screen flex">
@@ -50,5 +49,5 @@ export default function RootLayout({
         </Providers>
       </body>
     </html>
-  )
+  );
 }

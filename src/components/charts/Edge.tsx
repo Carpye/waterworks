@@ -1,5 +1,7 @@
 "use client"
+import { colors } from "@/config"
 import { getEdgeParams } from "@/lib/flowUtils"
+import { useTheme } from "next-themes"
 import { useCallback, useEffect } from "react"
 import {
   BaseEdge,
@@ -30,6 +32,8 @@ function Edge({
   const targetNode = useStore(
     useCallback((store) => store.nodeInternals.get(target), [target])
   )
+
+  const { theme } = useTheme()
 
   useEffect(() => {
     setEdges((edges) =>
@@ -64,7 +68,14 @@ function Edge({
       <BaseEdge
         id={id}
         path={edgePath}
-        style={selected ? { ...style, stroke: "#788dfc" } : style}
+        style={
+          selected
+            ? {
+                ...style,
+                stroke: colors.main.primary,
+              }
+            : style
+        }
         markerEnd={markerEnd}
       />
       <EdgeLabelRenderer>

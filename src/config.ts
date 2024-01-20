@@ -2,8 +2,14 @@ import { LayoutDashboard, Workflow } from "lucide-react"
 import { MarkerType } from "reactflow"
 
 export const colors = {
-  primary: "#6b70ff",
-  secondary: "#adb0ff",
+  main: {
+    primary: "#6b70ff",
+    secondary: "#adb0ff",
+  },
+  turquoise: {
+    primary: "#00fff2",
+    secondary: "#adb0ff",
+  },
 }
 
 const defaultNodeOptions = {
@@ -17,7 +23,7 @@ export const defaultEdgeOptions = {
   },
   label: "text",
   style: {
-    stroke: colors.primary,
+    stroke: colors.main.primary,
     strokeWidth: 1,
   },
   markerEnd: {
@@ -25,7 +31,7 @@ export const defaultEdgeOptions = {
     width: 15,
     height: 15,
     strokeWidth: 1,
-    color: colors.primary,
+    color: colors.main.primary,
   },
 }
 
@@ -183,5 +189,3 @@ export const tableData: tableObject[] = [
     status: "ERROR",
   },
 ]
-
-export const themes = ["light", "dark", "system", "turquoise"]

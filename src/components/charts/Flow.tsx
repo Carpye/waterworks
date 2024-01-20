@@ -1,6 +1,13 @@
-"use client"
+"use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react"
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import ReactFlow, {
   Background,
   BackgroundVariant,
@@ -11,7 +18,7 @@ import ReactFlow, {
   useEdgesState,
   useNodesState,
   useReactFlow,
-} from "reactflow"
+} from "reactflow";
 
 import {
   Dialog,
@@ -22,64 +29,75 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 
-import { defaultEdgeOptions, defaultEdges, defaultNodes } from "@/config"
-import ConnectionLine from "./ConnectionLine"
+import { defaultEdgeOptions, defaultEdges, defaultNodes } from "@/config";
+import ConnectionLine from "./ConnectionLine";
 
-import { cn } from "@/lib/utils"
-import { HelpCircle, Loader2 } from "lucide-react"
-import "reactflow/dist/style.css"
-import { Button } from "../ui/button"
-import Edge from "./Edge"
-import Node from "./Node"
-import { Separator } from "../ui/separator"
-import { useTheme } from "next-themes"
+import { cn } from "@/lib/utils";
+import { HelpCircle, Loader2 } from "lucide-react";
+import "reactflow/dist/style.css";
+import { Button } from "../ui/button";
+import Edge from "./Edge";
+import Node from "./Node";
+import { Separator } from "../ui/separator";
+import { useTheme } from "next-themes";
+
+const nodeActionContext = createContext({
+  nodeActions: [],
+  useNodeActions: () => {},
+});
+
+export const useNodeActions = () => useContext(nodeActionContext);
 
 export default function Flow() {
-  const [nodes, setNodes, onNodesChange] = useNodesState(defaultNodes)
-  const [edges, setEdges, onEdgesChange] = useEdgesState(defaultEdges)
+  const [nodes, setNodes, onNodesChange] = useNodesState(defaultNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(defaultEdges);
 
-  const [color, setColor] = useState<string | null>(null)
+  const [color, setColor] = useState<string | null>(null);
+  const [nodeActions, setNodeActions] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
 
-  const { resolvedTheme: theme } = useTheme()
+  const { resolvedTheme: theme } = useTheme();
 
-  const reactFlowInstance = useReactFlow()
+  const reactFlowInstance = useReactFlow();
 
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(true);
 
   const onConnect = useCallback(
     (connection: Connection) => {
-      const edge = { ...connection, type: "customEdge" }
+      const edge = { ...connection, type: "customEdge" };
 
-      return setEdges((eds) => addEdge(edge, eds))
+      return setEdges((eds) => addEdge(edge, eds));
     },
     [setEdges]
-  )
+  );
 
   const onInit = () => {
-    setColor(theme === "dark" || "turquoise" ? "#131313" : "#d7eafe")
-    setLoading(false)
-  }
+    setColor(theme === "dark" ? "#131313" : "#d7eafe");
+    setLoading(false);
+  };
 
-  useEffect(
-    () => setColor(theme === "dark" || "turquoise" ? "#131313" : "#d7eafe"),
-    [theme]
-  )
+  useEffect(() => setColor(theme === "dark" ? "#131313" : "#d7eafe"), [theme]);
 
   const resetCanvas = () => {
-    setEdges(defaultEdges), setNodes(defaultNodes)
-    reactFlowInstance.fitView({ duration: 2 })
-  }
+    setEdges(defaultEdges), setNodes(defaultNodes);
+    reactFlowInstance.fitView({ duration: 2 });
+  };
 
-  const nodeTypes = useMemo(() => ({ customNode: Node }), [])
+  const nodeTypes = useMemo(() => ({ customNode: Node }), []);
 
   const edgeTypes = useMemo(
     () => ({
       customEdge: Edge,
     }),
     []
-  )
+  );
 
   return (
     <div className="w-full h-full border rounded-xl flex justify-center items-center relative overflow-hidden">
@@ -88,42 +106,49 @@ export default function Flow() {
           className={cn("w-12 h-12 animate-spin", loading ? "block" : "hidden")}
         />
       </div>
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        nodeTypes={nodeTypes}
-        edgeTypes={edgeTypes}
-        defaultEdgeOptions={defaultEdgeOptions}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        connectionLineComponent={ConnectionLine}
-        onConnect={onConnect}
-        onInit={onInit}
-        className={cn(loading ? "invisible" : "visible")}
-        deleteKeyCode={["Delete", "Backspace"]}
-        fitView
+      <nodeActionContext.Provider
+        value={{
+          nodeActions,
+          setNodeActions,
+        }}
       >
-        <Controls />
-        <Background
-          variant={BackgroundVariant.Dots}
-          gap={12}
-          size={1}
-          color={color ?? "white"}
-          style={{ background: "hsl(var(--background))" }}
-        />
-        <Panel position="bottom-right">
-          <ResetDialog resetCanvas={resetCanvas} />
-        </Panel>
-        <Panel position="top-right">
-          <InfoDialog />
-        </Panel>
-      </ReactFlow>
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
+          defaultEdgeOptions={defaultEdgeOptions}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          connectionLineComponent={ConnectionLine}
+          onConnect={onConnect}
+          onInit={onInit}
+          className={cn(loading ? "invisible" : "visible")}
+          deleteKeyCode={["Delete", "Backspace"]}
+          fitView
+        >
+          <Controls />
+          <Background
+            variant={BackgroundVariant.Dots}
+            gap={12}
+            size={1}
+            color={color ?? "white"}
+            style={{ background: "hsl(var(--background))" }}
+          />
+          <Panel position="bottom-right">
+            <ResetDialog resetCanvas={resetCanvas} />
+          </Panel>
+          <Panel position="top-right">
+            <InfoDialog />
+          </Panel>
+        </ReactFlow>
+      </nodeActionContext.Provider>
     </div>
-  )
+  );
 }
 
 interface ResetDialogProps {
-  resetCanvas: () => void
+  resetCanvas: () => void;
 }
 
 function ResetDialog({ resetCanvas }: ResetDialogProps) {
@@ -152,7 +177,7 @@ function ResetDialog({ resetCanvas }: ResetDialogProps) {
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
 
 function InfoDialog() {
@@ -184,5 +209,5 @@ function InfoDialog() {
         </DialogHeader>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

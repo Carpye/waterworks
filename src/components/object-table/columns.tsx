@@ -1,19 +1,11 @@
 "use client"
 
+import { tableObject } from "@/config"
 import { cn, getIconFromType } from "@/lib/utils"
-import {
-  Column,
-  ColumnDef,
-  FilterFn,
-  createColumnHelper,
-} from "@tanstack/react-table"
+import { Column, ColumnDef } from "@tanstack/react-table"
 import { format } from "date-fns"
 import { pl } from "date-fns/locale"
 import { Button } from "../ui/button"
-import { ArrowUpDown } from "lucide-react"
-import { tableObject } from "@/config"
-
-const columnHelper = createColumnHelper<tableObject>()
 
 export const columns: ColumnDef<unknown, tableObject>[] = [
   {
@@ -39,7 +31,9 @@ export const columns: ColumnDef<unknown, tableObject>[] = [
   },
   {
     accessorKey: "date",
-    header: ({ column }) => <HeaderCell name="Data" column={column} />,
+    header: ({ column }) => (
+      <HeaderCell name="Data utworzenia" column={column} />
+    ),
     cell: ({ row }) => {
       return (
         <div className="text-center">
@@ -47,10 +41,6 @@ export const columns: ColumnDef<unknown, tableObject>[] = [
         </div>
       )
     },
-    // meta: {
-    //   filterComponent: CustomFilter,
-    // },
-    // filterFn: dateFilter,
   },
   {
     accessorKey: "status",
@@ -70,26 +60,6 @@ export const columns: ColumnDef<unknown, tableObject>[] = [
     },
   },
 ]
-
-// const columns2 = [
-//   columnHelper.accessor("id", {
-//     header: ({ column }) => <HeaderCell name="ID" column={column} />,
-//     cell: ({ row }) => {
-//       const status = row.getValue("status")
-//       return (
-//         <span
-//           className={cn("py-1 px-2 rounded-full", {
-//             "text-red-400 bg-red-400/20": status === "ERROR",
-//             "text-green-400 bg-green-400/20": status === "OK",
-//           })}
-//         >
-//           {status as string}
-//         </span>
-//       )
-//     },
-//     filterFn: "inNumberRange",
-//   }),
-// ]
 
 function HeaderCell({
   column,

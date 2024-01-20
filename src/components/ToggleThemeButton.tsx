@@ -9,12 +9,11 @@ import {
 } from "./ui/dropdown-menu"
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
-import { themes } from "@/config"
 import { ClassNameValue } from "tailwind-merge"
 import { cn } from "@/lib/utils"
 
 const ToggleThemeButton = ({ className }: { className?: ClassNameValue }) => {
-  const { setTheme } = useTheme()
+  const { setTheme, themes } = useTheme()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

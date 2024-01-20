@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   ColumnDef,
@@ -9,7 +9,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 
 import {
   Table,
@@ -18,27 +18,36 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { cn, globalFilterFn } from "@/lib/utils"
-import { Calendar, Info, Search, X } from "lucide-react"
-import { useRef, useState } from "react"
-import { Input } from "../ui/input"
-import { Toggle } from "../ui/toggle"
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
-import { Button } from "../ui/button"
+} from "@/components/ui/table";
+import { cn, globalFilterFn } from "@/lib/utils";
+import { Calendar, Info, Search, X } from "lucide-react";
+import { useRef, useState } from "react";
+import { Input } from "../ui/input";
+import { Toggle } from "../ui/toggle";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { Button } from "../ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import { Separator } from "../ui/separator";
 
 interface ObjectTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
 }
 
 export default function ObjectTable<TData, TValue>({
   columns,
   data,
 }: ObjectTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([])
-  const [globalFilter, setGlobalFilter] = useState<string>("")
-  const [dateFilter, setDateFilter] = useState<boolean>(true)
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [globalFilter, setGlobalFilter] = useState<string>("");
+  const [dateFilter, setDateFilter] = useState<boolean>(true);
 
   const table = useReactTable({
     data,
@@ -54,18 +63,18 @@ export default function ObjectTable<TData, TValue>({
       sorting,
       globalFilter,
     },
-  })
+  });
 
   const toggleDateFilter = () => {
-    console.log(dateFilter)
+    console.log(dateFilter);
 
-    const temp = globalFilter
-    setGlobalFilter("")
-    setGlobalFilter(temp)
-    setDateFilter((prev) => !prev)
-  }
+    const temp = globalFilter;
+    setGlobalFilter("");
+    setGlobalFilter(temp);
+    setDateFilter((prev) => !prev);
+  };
 
-  const filterInputRef = useRef<HTMLInputElement>(null)
+  const filterInputRef = useRef<HTMLInputElement>(null);
 
   return (
     <div className="border rounded-xl">
@@ -90,8 +99,8 @@ export default function ObjectTable<TData, TValue>({
                   !globalFilter ? "invisible" : "visible"
                 )}
                 onClick={() => {
-                  setGlobalFilter("")
-                  filterInputRef.current?.focus()
+                  setGlobalFilter("");
+                  filterInputRef.current?.focus();
                 }}
               >
                 <X className="w-4 h-4" />
@@ -104,11 +113,12 @@ export default function ObjectTable<TData, TValue>({
                 pressed={dateFilter}
                 aria-label="Toggle date search"
                 variant={"outline"}
-                className={
+                className={cn(
+                  "px-2",
                   dateFilter
                     ? "bg-border text-foreground"
                     : "text-muted-foreground"
-                }
+                )}
                 onClick={toggleDateFilter}
               >
                 <Calendar />
@@ -117,13 +127,48 @@ export default function ObjectTable<TData, TValue>({
             <TooltipContent>Uwzględnij filtrowanie po dacie</TooltipContent>
           </Tooltip>
         </div>
-        <Button
-          variant={"ghost"}
-          size={"icon"}
-          className="text-muted-foreground"
-        >
-          <Info />
-        </Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button
+              variant={"ghost"}
+              size={"icon"}
+              className="text-muted-foreground"
+            >
+              <Info />
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Tabela obiektów wodociągów</DialogTitle>
+              <DialogDescription className="pt-4 flex flex-col gap-4">
+                <p>
+                  Tabela wyświetla informacje o obiektach w sieci wodowiągowej.
+                </p>
+                <Separator />
+                <ul className="flex flex-col gap-2">
+                  <li>
+                    <span className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
+                      Pole wyszukiwania
+                    </span>{" "}
+                    - Szukaj rekordów w tabeli po kolumnach
+                  </li>
+                  <li className="flex gap-1 items-center">
+                    <div className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold w-fit ">
+                      <Calendar className="" />
+                    </div>
+                    - Uwzględnienie wyszukiwania po dacie
+                  </li>
+                  <li>
+                    <span className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
+                      Kliknięcie w nazwę kolumny
+                    </span>{" "}
+                    - Sortowanie wg wybranej kolumny
+                  </li>
+                </ul>
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
       </div>
       <Table className="h-full border-t">
         <TableHeader>
@@ -144,7 +189,7 @@ export default function ObjectTable<TData, TValue>({
                           header.getContext()
                         )}
                   </TableHead>
-                )
+                );
               })}
             </TableRow>
           ))}
@@ -173,5 +218,5 @@ export default function ObjectTable<TData, TValue>({
         </TableBody>
       </Table>
     </div>
-  )
+  );
 }

@@ -1,11 +1,7 @@
 "use client"
+import { colors } from "@/config"
 import { getEdgeParams } from "@/lib/flowUtils"
 import { ConnectionLineComponentProps, getBezierPath } from "reactflow"
-
-const styles = {
-  color: "#93c5fd",
-  strokeWidth: 1.5,
-}
 
 function ConnectionLine({
   toX,
@@ -39,8 +35,8 @@ function ConnectionLine({
     <g>
       <path
         fill="none"
-        stroke={styles.color}
-        strokeWidth={styles.strokeWidth}
+        stroke={colors.main.primary}
+        strokeWidth={1.5}
         className="animated"
         d={edgePath}
       />
@@ -49,8 +45,8 @@ function ConnectionLine({
         cy={toY}
         fill="#fff"
         r={3}
-        stroke={styles.color}
-        strokeWidth={styles.strokeWidth}
+        stroke={colors.main.primary}
+        strokeWidth={1.5}
       />
     </g>
   )

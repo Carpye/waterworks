@@ -18,18 +18,18 @@ const SidebarButton = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant={"outline"} size={"icon"} className="lg:hidden">
+        <Button variant={"outline"} size={"icon"} className="min-xl:hidden">
           <Menu />
         </Button>
       </SheetTrigger>
-      <SheetContent className="!max-w-[250px]">
+      <SheetContent className="!max-w-[250px]" side={"left"}>
         <div className="flex flex-col h-full items-center justify-between pt-8">
           <ul className="flex flex-col gap-8">
             {sidebarItems.map((item, i) => (
-              <SidebarItem item={item} key={i} />
+              <SidebarItem item={item} key={i} orientation="left" />
             ))}
           </ul>
-          <ToggleThemeButton className="flex sm:hidden self-end" />
+          <ToggleThemeButton className="self-start" />
         </div>
       </SheetContent>
     </Sheet>

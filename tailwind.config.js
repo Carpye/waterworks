@@ -1,4 +1,4 @@
-const plugin = require("tailwindcss/plugin")
+const plugin = require("tailwindcss/plugin");
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
@@ -13,10 +13,14 @@ module.exports = {
       center: true,
       padding: "2rem",
       screens: {
+        xs: "375px",
         "2xl": "1400px",
       },
     },
     extend: {
+      screens: {
+        xs: "375px",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -79,10 +83,10 @@ module.exports = {
       // here is your CSS selector - could be anything
       // in this case it is `html` element
       // with `.turquoise` class (both present)
-      addVariant("turquoise", "html.turquoise &")
+      addVariant("turquoise", "html.turquoise &");
 
       // and so on
     }),
     require("@shrutibalasa/tailwind-grid-auto-fit"),
   ],
-}
+};

@@ -1,19 +1,23 @@
-"use client"
-import { DefaultNode, colors } from "@/config"
-import { cn, getIconFromType } from "@/lib/utils"
-import { MouseEvent, memo, useState } from "react"
-import { Handle, NodeProps, NodeToolbar, Position } from "reactflow"
-import { Separator } from "../ui/separator"
-import { Button } from "../ui/button"
-import { toast } from "sonner"
+"use client";
+import { DefaultNode, colors } from "@/config";
+import { cn, getIconFromType } from "@/lib/utils";
+import { MouseEvent, memo, useContext, useState } from "react";
+import { Handle, NodeProps, NodeToolbar, Position } from "reactflow";
+import { Separator } from "../ui/separator";
+import { Button } from "../ui/button";
+import { toast } from "sonner";
+import { useNodeActions } from "./Flow";
 
 const CustomNode = ({ data, id }: NodeProps) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const {} = useNodeActions();
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const onNodeClick = (e: MouseEvent) => {
-    if ((e.target! as HTMLDivElement).tagName !== "BUTTON") setIsOpen((v) => !v)
-  }
+    if ((e.target! as HTMLDivElement).tagName !== "BUTTON")
+      setIsOpen((v) => !v);
+  };
   const onActionClick = () =>
-    toast.success("Naciśnięto przycisk akcji dla węzła o id: " + id)
+    toast.success("Naciśnięto przycisk akcji dla węzła o id: " + id);
   return (
     <>
       <div
@@ -50,7 +54,7 @@ const CustomNode = ({ data, id }: NodeProps) => {
         className="!bg-zinc-700 !dark:!bg-zinc-500 !w-4 !rounded-t-none !border-none !-z-10"
       />
     </>
-  )
-}
+  );
+};
 
-export default memo(CustomNode)
+export default memo(CustomNode);

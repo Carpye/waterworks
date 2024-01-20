@@ -10,9 +10,10 @@ interface SidebarItemProps {
     path: string
     icon: LucideIcon
   }
+  orientation?: "left" | "right"
 }
 
-export default function SidebarItem({ item }: SidebarItemProps) {
+export default function SidebarItem({ item, orientation }: SidebarItemProps) {
   const pathname = usePathname()
   return (
     <li className="w-full">
@@ -22,6 +23,7 @@ export default function SidebarItem({ item }: SidebarItemProps) {
           "flex items-center gap-4 rounded-sm text-muted-foreground hover:text-primary hover:bg-primary/20 py-2 px-4 w-full transition-colors",
           {
             "text-primary": pathname === item.path,
+            "flex-row-reverse": orientation === "right",
           }
         )}
       >

@@ -5,7 +5,7 @@ import SidebarItem from "./SidebarItem"
 
 const Sidebar = () => {
   return (
-    <div className="h-full justify-center border-r relative lg:flex hidden">
+    <div className="h-full justify-center border-r relative xl:flex hidden">
       <ul className="p-4 flex flex-col mt-8 items-center gap-8 relative">
         {sidebarItems.map((item, i) => (
           <SidebarItem item={item} key={i} />
